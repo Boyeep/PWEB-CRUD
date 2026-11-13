@@ -1,8 +1,6 @@
-# Pemetaan tugas
+# Daftar fitur
 
-Sumber: https://fajarbaskoro.blogspot.com/2022/11/crud-2-pendaftaran-siswa-baru.html
-
-| Kebutuhan materi | Implementasi |
+| Fitur | Implementasi |
 | --- | --- |
 | Halaman utama | public/index.php, statistik dan lima pendaftar terbaru |
 | Pendaftaran | public/form-daftar.php dan proses-pendaftaran.php |
@@ -17,4 +15,4 @@ Sumber: https://fajarbaskoro.blogspot.com/2022/11/crud-2-pendaftaran-siswa-baru.
 
 Tambahan: detail siswa, pencarian, filter jenis kelamin, paginasi delapan baris, CSRF, prepared statements, escaping HTML, dan pemisahan ruang demo.
 
-Kolom workspace_id dan created_at adalah tambahan teknis. Lima isian formulir mengikuti materi. Lampiran studi kasus Laundry pada bagian Latihan adalah referensi pengembangan terpisah; proyek ini mengerjakan judul utama pendaftaran siswa baru.
+Kolom workspace_id dan created_at mendukung pemisahan ruang demo dan pencatatan waktu pendaftaran. Formulir memuat nama, alamat, jenis kelamin, agama, dan sekolah asal.

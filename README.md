@@ -1,19 +1,18 @@
 # PWEB-CRUD | RuangSiswa
 
-Aplikasi CRUD pendaftaran siswa baru dengan PHP, PDO, HTML, CSS, dan MySQL untuk tugas Pemrograman Web.
+Aplikasi CRUD pendaftaran siswa baru dengan PHP, PDO, HTML, CSS, dan MySQL.
 
 - Demo: https://pweb-crud.vercel.app
 - Artikel: https://pweb-crud.vercel.app/blog.php
 - GitHub: https://github.com/Boyeep/PWEB-CRUD
 - [HTML Blogger](docs/blogspot.html) dan [petunjuk artikel](docs/BLOGSPOT.md)
-- [Pemetaan tugas](docs/CHECKLIST.md) dan [deployment](docs/DEPLOYMENT.md)
-- [Materi tugas](https://fajarbaskoro.blogspot.com/2022/11/crud-2-pendaftaran-siswa-baru.html)
+- [Daftar fitur](docs/CHECKLIST.md) dan [deployment](docs/DEPLOYMENT.md)
 
 ## Fitur
 
 Ringkasan jumlah pendaftar, tambah, daftar, detail, edit, dan hapus dengan konfirmasi. Pencarian nama/sekolah, filter jenis kelamin, paginasi delapan baris, validasi server, pesan kesalahan per kolom, token CSRF, prepared statements, dan escaping HTML.
 
-Lima isian mengikuti tugas: nama, alamat, jenis_kelamin, agama, sekolah_asal. Skema menambahkan workspace_id dan created_at untuk pemisahan demo dan waktu pendaftaran. Enam data fiktif disiapkan pada ruang baru. Maksimum 100 siswa per ruang; data contoh tidak kembali setelah dihapus.
+Lima isian utama: nama, alamat, jenis_kelamin, agama, sekolah_asal. Skema menambahkan workspace_id dan created_at untuk pemisahan demo dan waktu pendaftaran. Enam data fiktif disiapkan pada ruang baru. Maksimum 100 siswa per ruang; data contoh tidak kembali setelah dihapus.
 
 ## Menjalankan lokal
 
@@ -34,7 +33,7 @@ Buka http://localhost:8000. SQLite dibuat otomatis pada storage/. Di Windows den
 3. Atur DB_DRIVER=mysql, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, dan DB_PASSWORD.
 4. Jalankan ulang server PHP.
 
-Nama database materi adalah pendaftaran_siswa. Jika nama tersebut sudah dipakai proyek lain, sesuaikan nama database pada SQL dan .env terlebih dahulu. Script CREATE TABLE IF NOT EXISTS tidak memigrasi skema proyek lain.
+Nama database default adalah pendaftaran_siswa. Jika nama tersebut sudah dipakai proyek lain, sesuaikan nama database pada SQL dan .env terlebih dahulu. Script CREATE TABLE IF NOT EXISTS tidak memigrasi skema proyek lain.
 
 ## Hosting
 
