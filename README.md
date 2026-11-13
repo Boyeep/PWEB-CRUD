@@ -49,7 +49,9 @@ python -m pip install beautifulsoup4
 python tests/check_http.py
 ```
 
-Ubah TEST_BASE_URL untuk target lain, TEST_REPORT untuk nama laporan, dan TEST_SMOKE_ONLY=1 untuk pemeriksaan hosting tanpa input mirip serangan. Suite lengkap berjalan pada SQLite dan MySQL/MariaDB lokal. Hasil tersedia di qa-sqlite.json, qa-mysql.json, dan qa-production.json setelah pengujian. Setiap suite menggunakan sesi baru dan hanya memodifikasi data fiktif pada ruang ujinya.
+Ubah TEST_BASE_URL untuk target lain dan TEST_REPORT untuk nama laporan. Jalankan `python tests/check_smoke.py` untuk alur normal pada hosting; pemeriksaan keamanan dijalankan lokal agar tidak memicu firewall hosting. Hasil: **39 pemeriksaan SQLite, 39 pemeriksaan MySQL/MariaDB, dan 14 pemeriksaan produksi lolos**, termasuk pembacaan snapshot SQLite langsung dari Blob privat milik sesi uji. Laporan tersedia di qa-sqlite.json, qa-mysql.json, dan qa-production.json. Setiap suite menggunakan sesi baru dan hanya memodifikasi data fiktif pada ruang ujinya.
+
+QA produksi menggunakan alias deployment dan kredensial automation resmi Vercel yang disimpan dalam memori proses. Domain publik utama memberi Vercel Security Checkpoint pada trafik otomatis dari lingkungan pengerjaan. Firewall tetap aktif; keberhasilan suite dengan kredensial tidak membuktikan akses anonim pada domain utama. Akses publik melalui browser belum dapat diverifikasi di lingkungan ini.
 
 Akses browser otomatis di lingkungan pengerjaan tidak tersedia. Pemeriksaan visual desktop dan ponsel belum dijalankan; pemeriksaan HTTP dan database tidak menjamin kesempurnaan layout.
 

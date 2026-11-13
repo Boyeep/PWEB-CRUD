@@ -1,0 +1,66 @@
+{
+  "base_url": "https://pweb-crud-boyeeps.vercel.app",
+  "passed": 14,
+  "total": 14,
+  "checks": [
+    {
+      "name": "Dashboard renders PHP and six persisted records",
+      "passed": true
+    },
+    {
+      "name": "Session cookie is Secure and HttpOnly",
+      "passed": true
+    },
+    {
+      "name": "Registration form renders",
+      "passed": true
+    },
+    {
+      "name": "Create persists and returns success",
+      "passed": true
+    },
+    {
+      "name": "Search reads saved record on later request",
+      "passed": true
+    },
+    {
+      "name": "Edit form loads existing values",
+      "passed": true
+    },
+    {
+      "name": "Update persists with success notice",
+      "passed": true
+    },
+    {
+      "name": "Later request reads updated data",
+      "passed": true
+    },
+    {
+      "name": "GET delete shows confirmation",
+      "passed": true
+    },
+    {
+      "name": "Confirmed deletion returns success",
+      "passed": true
+    },
+    {
+      "name": "Deleted record absent on later request",
+      "passed": true
+    },
+    {
+      "name": "Blog article available",
+      "passed": true
+    },
+    {
+      "name": "Own test data cleaned up",
+      "passed": true
+    },
+    {
+      "name": "Private Blob snapshot contains persisted cleanup",
+      "passed": true
+    }
+  ],
+  "automation_auth": true,
+  "visual_qa": "Not run: browser access host unavailable.",
+  "security_tests": "See qa-sqlite.json and qa-mysql.json."
+}
