@@ -1,0 +1,59 @@
+<article class="blog-content" lang="id" style="font-family:Arial,sans-serif;font-size:16px;line-height:1.9;color:#4b5e51;max-width:900px;margin:0 auto;padding:28px 22px;overflow-wrap:anywhere">
+<p style="font-size:11px;letter-spacing:2px;font-weight:bold;color:#175e45;margin:0 0 14px">CATATAN PEMROGRAMAN WEB</p>
+<h1 style="font-size:30px;line-height:1.4;color:#244432;margin:0 0 24px">Membuat CRUD Pendaftaran Siswa Baru dengan PHP dan MySQL: RuangSiswa</h1>
+<p style="margin:0 0 18px">Pada tugas kali ini, saya membuat <strong>RuangSiswa</strong>, aplikasi pendaftaran siswa baru yang menerapkan empat operasi dasar pengelolaan data: Create, Read, Update, dan Delete. Proyek ini mengikuti materi <a href="https://fajarbaskoro.blogspot.com/2022/11/crud-2-pendaftaran-siswa-baru.html" style="color:#175e45;text-decoration:underline">CRUD 2 Pendaftaran Siswa Baru dari Fajar Baskoro</a>.</p>
+<p style="margin:0 0 18px">Aplikasi menyediakan halaman ringkasan, formulir pendaftaran, daftar siswa, detail, edit, serta konfirmasi penghapusan. Saya menambahkan pencarian, filter jenis kelamin, dan paginasi supaya data lebih mudah diperiksa. Seluruh contoh nama dan sekolah merupakan data fiktif untuk latihan.</p>
+<p style="padding:18px;background:#edf3e9;border:1px solid #dce5d6;border-radius:8px;margin:24px 0"><a href="https://pweb-crud.vercel.app" style="color:#175e45;font-weight:bold;text-decoration:underline">Buka demo RuangSiswa</a> · <a href="https://github.com/Boyeep/PWEB-CRUD" style="color:#175e45;font-weight:bold;text-decoration:underline">Source code di GitHub</a></p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">1. Memahami Alur CRUD</h2>
+<p style="margin:0 0 18px"><strong>Create</strong> terjadi ketika pengguna mengisi formulir lalu menyimpan pendaftaran. <strong>Read</strong> digunakan untuk menampilkan daftar dan detail siswa. <strong>Update</strong> memperbarui data melalui formulir edit. <strong>Delete</strong> menghapus satu pendaftaran setelah pengguna memberikan konfirmasi pada halaman khusus.</p>
+<p style="margin:0 0 18px">Setiap perubahan yang berhasil diikuti redirect dan pesan hasil. Dengan pola Post/Redirect/Get, memuat ulang halaman tujuan tidak langsung mengirim formulir tambah sekali lagi. JavaScript hanya membantu navigasi ponsel dan fokus pada kolom yang bermasalah. Pengelolaan data tetap berjalan melalui formulir HTML dan PHP.</p>
+<figure style="margin:24px 0"><img src="https://raw.githubusercontent.com/Boyeep/PWEB-CRUD/main/public/assets/alur-crud.svg" alt="Diagram alur CRUD: formulir siswa, validasi PHP, query PDO, database, dan daftar siswa" width="1000" height="300" style="display:block;width:100%;height:auto;border:1px solid #dce5d6;border-radius:8px"/><figcaption style="font-size:12px;text-align:center;margin-top:10px;color:#6a7b6d">Alur pemrosesan data pada RuangSiswa. Diagram merupakan ilustrasi arsitektur, bukan tangkapan layar aplikasi.</figcaption></figure>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">2. Menyusun Database Pendaftaran</h2>
+<p style="margin:0 0 18px">Materi menggunakan database <code>pendaftaran_siswa</code> dan tabel <code>calon_siswa</code>. Data utamanya adalah <code>id</code>, <code>nama</code>, <code>alamat</code>, <code>jenis_kelamin</code>, <code>agama</code>, dan <code>sekolah_asal</code>. ID menjadi primary key dengan auto increment.</p>
+<p style="margin:0 0 18px">Implementasi saya menambahkan <code>workspace_id</code> untuk memisahkan ruang demo antar browser serta <code>created_at</code> untuk mencatat waktu pendaftaran. Kedua kolom ini merupakan tambahan teknis pada proyek, sedangkan lima isian formulir tetap mengikuti materi.</p>
+<pre style="padding:18px;background:#f5f7f1;border:1px solid #e0e5da;border-radius:7px;overflow-x:auto;font-size:13px;line-height:1.8;margin:20px 0"><code class="language-sql">CREATE TABLE calon_siswa (
+    id INT NOT NULL AUTO_INCREMENT,
+    workspace_id CHAR(32) NOT NULL,
+    nama VARCHAR(64) NOT NULL,
+    alamat VARCHAR(255) NOT NULL,
+    jenis_kelamin VARCHAR(16) NOT NULL,
+    agama VARCHAR(16) NOT NULL,
+    sekolah_asal VARCHAR(64) NOT NULL,
+    created_at DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    INDEX siswa_workspace (workspace_id, id)
+);</code></pre>
+<p style="margin:0 0 18px">Nama dan sekolah asal dibatasi 64 karakter, sedangkan alamat maksimal 255 karakter. Pilihan jenis kelamin dan agama diperiksa kembali di server. Jadi, mengubah pilihan formulir melalui browser tidak membuat nilai di luar daftar langsung diterima.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">3. Membagi Tanggung Jawab Setiap File</h2>
+<p style="margin:0 0 18px">File <code>config.php</code> memuat bootstrap aplikasi. Koneksi database dikelola melalui <code>app/database.php</code>. Fungsi layout dan formulir disimpan pada folder <code>app/</code> agar halaman tambah dan edit menggunakan aturan tampilan yang sama.</p>
+<ul style="padding-left:23px;margin:0 0 18px"><li><code>index.php</code>: ringkasan jumlah pendaftar dan siswa terbaru.</li><li><code>form-daftar.php</code>: formulir lima informasi utama siswa.</li><li><code>proses-pendaftaran.php</code>: validasi dan query INSERT.</li><li><code>list-siswa.php</code>: daftar, pencarian, filter, dan paginasi.</li><li><code>detail.php</code>: seluruh informasi seorang calon siswa.</li><li><code>form-edit.php</code> dan <code>proses-edit.php</code>: menampilkan serta menyimpan perubahan.</li><li><code>hapus.php</code>: konfirmasi pada GET dan penghapusan pada POST.</li></ul>
+<p style="margin:0 0 18px">Document root diarahkan ke folder <code>public/</code>. Konfigurasi, database, dan penyimpanan lokal berada di luar folder publik. Pada deployment Vercel, router hanya mengizinkan nama halaman yang telah ditentukan.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">4. Menghubungkan PHP dengan MySQL</h2>
+<p style="margin:0 0 18px">Saya menggunakan PDO untuk menghubungkan PHP dengan MySQL. Host, port, database, username, dan password dibaca dari environment. Repository menyediakan <code>.env.example</code>, sedangkan konfigurasi asli tidak ikut diunggah ke GitHub.</p>
+<pre style="padding:18px;background:#f5f7f1;border:1px solid #e0e5da;border-radius:7px;overflow-x:auto;font-size:13px;line-height:1.8;margin:20px 0"><code class="language-php">$query = db()-&gt;prepare(
+    'UPDATE calon_siswa
+     SET nama=?, alamat=?, jenis_kelamin=?, agama=?, sekolah_asal=?
+     WHERE id=? AND workspace_id=?'
+);
+$query-&gt;execute([
+    $data['nama'], $data['alamat'], $data['jenis_kelamin'],
+    $data['agama'], $data['sekolah_asal'], $id,
+    $_SESSION['workspace']
+]);</code></pre>
+<p style="margin:0 0 18px">Nilai pengguna dikirim melalui parameter, terpisah dari teks SQL. Kondisi <code>workspace_id</code> diterapkan pada pembacaan, perubahan, dan penghapusan. Mengganti ID pada URL tidak memberikan akses ke data milik ruang demo lain.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">5. Validasi dan Penghapusan yang Terarah</h2>
+<p style="margin:0 0 18px">Validasi server memeriksa panjang teks, kolom wajib, serta pilihan yang diizinkan. Jika ada kesalahan, formulir menampilkan pesan di dekat kolom dan mempertahankan isian sebelumnya. Nilai yang ditampilkan kembali menggunakan <code>htmlspecialchars</code> sehingga input berupa tag HTML tampil sebagai teks.</p>
+<p style="margin:0 0 18px">Semua perubahan data memerlukan POST dan token CSRF yang sesuai sesi. Membuka tautan hapus hanya menampilkan pertanyaan konfirmasi. Pengguna bisa kembali ke detail melalui tombol Batal. DELETE baru dijalankan ketika formulir konfirmasi dikirim dan tokennya valid.</p>
+<p style="margin:0 0 18px">Ruang demo dibatasi maksimal 100 siswa dan diawali enam data fiktif. Menghapus semua siswa tidak memuat ulang data contoh. Pemisahan sesi ini ditujukan untuk latihan bersama, bukan pengganti autentikasi akun petugas sekolah.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">6. Menjalankan Lokal dan Mendeploy</h2>
+<p style="margin:0 0 18px">Untuk mencoba lokal, gunakan PHP 8.2 atau lebih baru dengan PDO, pdo_sqlite, dan mbstring, lalu jalankan <code>php -S localhost:8000 -t public</code>. Aplikasi secara default membuat SQLite di folder <code>storage/</code>. Jika ingin mengikuti latihan MySQL, impor <code>database/mysql.sql</code>, salin <code>.env.example</code> menjadi <code>.env</code>, dan ubah <code>DB_DRIVER=mysql</code>.</p>
+<p style="margin:0 0 18px">Demo online di Vercel menggunakan PHP dan SQLite dengan snapshot pada <strong>Vercel Blob privat</strong>. MySQL merupakan pilihan implementasi lokal; demo online tidak diklaim menggunakan MySQL. Penyimpanan Blob diperlukan karena file sementara pada fungsi serverless tidak dapat dijadikan penyimpanan permanen.</p>
+<p style="margin:0 0 18px">Setelah perubahan berhasil, snapshot database dan sesi disimpan sebelum redirect sukses. Request berikutnya mengambil snapshot terbaru. ETag digunakan agar dua perubahan bersamaan tidak saling menimpa tanpa diketahui. Data demo disimpan dengan masa berlaku tujuh hari; menghapus cookie akan membuka ruang baru.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">7. Pengujian dan Hasil Pembelajaran</h2>
+<p style="margin:0 0 18px">Pengujian HTTP disediakan di folder <code>tests/</code> untuk memeriksa tambah, baca, edit, hapus, pencarian, filter, validasi, token CSRF, dan isolasi antar sesi. Pengujian database lokal menggunakan SQLite dan MySQL/MariaDB. Demo produksi juga diperiksa dengan data fiktif pada sesi uji sendiri. Rincian hasil disimpan pada file laporan QA di repository.</p>
+<p style="margin:0 0 18px">Pemeriksaan visual melalui browser otomatis belum dapat dilakukan karena akses browser pengujian di lingkungan kerja tidak tersedia. Layout menggunakan CSS responsif, tabel dengan area gulir, label formulir yang terlihat, fokus keyboard, dan navigasi ponsel. Pemeriksaan HTTP tidak menggantikan peninjauan visual langsung.</p>
+<p style="margin:0 0 18px">Melalui proyek ini, saya mempelajari hubungan antara formulir HTML, validasi PHP, query berparameter, dan penyimpanan database. CRUD juga melatih penanganan keadaan kosong, data yang sudah dihapus, dan kegagalan penyimpanan agar hasil aplikasi tetap dapat dipahami pengguna.</p>
+<h2 style="font-size:23px;line-height:1.5;color:#244432;margin:32px 0 14px">Referensi</h2>
+<ul style="padding-left:23px;margin:0 0 18px"><li><a href="https://fajarbaskoro.blogspot.com/2022/11/crud-2-pendaftaran-siswa-baru.html" style="color:#175e45;text-decoration:underline">Fajar Baskoro: CRUD 2 Pendaftaran Siswa Baru</a></li><li><a href="https://www.php.net/manual/en/book.pdo.php" style="color:#175e45;text-decoration:underline">PHP Manual: PHP Data Objects</a></li><li><a href="https://www.php.net/manual/en/pdo.prepared-statements.php" style="color:#175e45;text-decoration:underline">PHP Manual: Prepared Statements</a></li><li><a href="https://vercel.com/docs/vercel-blob/using-blob-sdk" style="color:#175e45;text-decoration:underline">Vercel Blob: penyimpanan dan operasi Blob</a></li></ul>
+<p style="padding-top:20px;border-top:1px solid #dce5d6;font-size:13px;color:#738271">Repository: <a href="https://github.com/Boyeep/PWEB-CRUD" style="color:#175e45;text-decoration:underline">Boyeep/PWEB-CRUD</a> · Demo: <a href="https://pweb-crud.vercel.app" style="color:#175e45;text-decoration:underline">pweb-crud.vercel.app</a></p>
+</article>

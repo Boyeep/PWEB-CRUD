@@ -1,0 +1,165 @@
+{
+  "base_url": "http://127.0.0.1:4200",
+  "smoke_only": false,
+  "passed": 39,
+  "total": 39,
+  "checks": [
+    {
+      "name": "Dashboard reads six fictional records",
+      "passed": true
+    },
+    {
+      "name": "Security response headers",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /list-siswa.php",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /form-daftar.php",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /panduan.php",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /blog.php",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /assets/style.css",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /assets/app.js",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /assets/favicon.svg",
+      "passed": true
+    },
+    {
+      "name": "Local font is served",
+      "passed": true
+    },
+    {
+      "name": "Page or asset /assets/alur-crud.svg",
+      "passed": true
+    },
+    {
+      "name": "Five required form fields have labels",
+      "passed": true
+    },
+    {
+      "name": "GET cannot create",
+      "passed": true
+    },
+    {
+      "name": "GET cannot update",
+      "passed": true
+    },
+    {
+      "name": "CSRF blocks create",
+      "passed": true
+    },
+    {
+      "name": "Validation preserves input and reports errors",
+      "passed": true
+    },
+    {
+      "name": "Create commits and redirects to list",
+      "passed": true
+    },
+    {
+      "name": "Stored HTML is escaped",
+      "passed": true
+    },
+    {
+      "name": "Search finds persisted record on later request",
+      "passed": true
+    },
+    {
+      "name": "Detail shows all fields",
+      "passed": true
+    },
+    {
+      "name": "Other session cannot read record",
+      "passed": true
+    },
+    {
+      "name": "Other session cannot open edit",
+      "passed": true
+    },
+    {
+      "name": "Other session cannot update record",
+      "passed": true
+    },
+    {
+      "name": "Other session cannot delete record",
+      "passed": true
+    },
+    {
+      "name": "CSRF blocks update",
+      "passed": true
+    },
+    {
+      "name": "GET delete only confirms",
+      "passed": true
+    },
+    {
+      "name": "Update persists on later request",
+      "passed": true
+    },
+    {
+      "name": "Gender filter combines with search",
+      "passed": true
+    },
+    {
+      "name": "Other gender excludes record",
+      "passed": true
+    },
+    {
+      "name": "CSRF blocks delete",
+      "passed": true
+    },
+    {
+      "name": "Delete commits with notice",
+      "passed": true
+    },
+    {
+      "name": "Deleted record returns 404",
+      "passed": true
+    },
+    {
+      "name": "Empty search offers recovery",
+      "passed": true
+    },
+    {
+      "name": "Malformed ID returns 404",
+      "passed": true
+    },
+    {
+      "name": "SQL input stays a search parameter",
+      "passed": true
+    },
+    {
+      "name": "Wildcard search treats percent literally",
+      "passed": true
+    },
+    {
+      "name": "Pagination splits nine rows into eight and one",
+      "passed": true
+    },
+    {
+      "name": "All suite records removed from own workspace",
+      "passed": true
+    },
+    {
+      "name": "Config is outside public document root",
+      "passed": true
+    }
+  ],
+  "visual_qa": "Not run: browser access host unavailable."
+}
